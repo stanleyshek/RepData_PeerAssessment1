@@ -1,13 +1,9 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
-```{r}
+
+```r
 library(plyr)
 library(ggplot2)
 
@@ -17,7 +13,8 @@ activity$date <- as.POSIXct(activity$date) # set the dates to POSIXct
 ```
 
 ## What is mean total number of steps taken per day?
-```{r}
+
+```r
 #Calculate the total number of steps taken per day
 dailysteps <- aggregate(activity$steps, by = list(activity$date), sum, na.rm=TRUE) 
 names(dailysteps) <- c("Date", "steps")
@@ -26,9 +23,12 @@ names(dailysteps) <- c("Date", "steps")
 qplot(steps, data = dailysteps, geom="histogram", xlab = "Daily Number of Steps", binwidth = 300)
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
 
 ## What is the average daily activity pattern?
-```{r}
+
+```r
 #df of the mean and median number of steps taken, averaged across all days (y-axis)
 intsteps <- aggregate(activity$steps, by = list(activity$interval), mean, na.rm=TRUE)
 intstepsmed <- aggregate(activity$steps, by = list(activity$interval), median, na.rm=TRUE)
@@ -44,9 +44,12 @@ intsteps$median.steps <- round(intsteps$median.steps)
 ggplot(intsteps, aes(x = interval, y = mean.steps)) + geom_line()
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+
 
 ## Imputing missing values
-```{r}
+
+```r
 #find the NAs
 na.steps <- subset(activity, is.na(steps))
 num.NAs <-length(na.steps$steps)
@@ -68,6 +71,8 @@ names(dailysteps2) <- c("Date", "steps")
 
 qplot(steps, data = dailysteps2, geom="histogram", xlab = "Daily Number of Steps", binwidth = 300)
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
